@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 // source: https://github.com/Zaelot-Inc/use-reducer-logger
+
 const getCurrentTimeFormatted = () => {
   const currentTime = new Date();
   const hours = currentTime.getHours();
@@ -8,7 +9,24 @@ const getCurrentTimeFormatted = () => {
   const milliseconds = currentTime.getMilliseconds();
   return `${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
+/**
+ * Example code: 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
+const [state, dispatch] = useReducer(
+  process.env.NODE_ENV === 'development' ? logger(reducer) : reducer,
+  initialState
+);
 
+ */
 const Logger = (reducer: any) => {
   const reducerWithLogger = useCallback(
     (state, action) => {
