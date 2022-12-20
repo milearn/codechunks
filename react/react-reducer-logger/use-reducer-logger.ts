@@ -27,6 +27,13 @@ const [state, dispatch] = useReducer(
 );
 
  */
+/**
+ * 
+ * @param reducer 
+ * @returns 
+ * 
+ * Usage: useReducer(Logger(Reducer), getInitialState());
+ */
 const Logger = (reducer: any) => {
   const reducerWithLogger = useCallback(
     (state, action) => {
