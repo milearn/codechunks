@@ -1,0 +1,32 @@
+.Tab-Content-Collapsed,
+.Tab-Content-Expanded {
+  padding-top: 32px;
+  width: 332px;
+  border-right: 1px solid grey;
+  position: relative;
+  transition: width 0.5s;
+}
+.Tab-Content-Expanded {
+  width: 632px;
+}
+
+.icon-expand:before,
+.icon-collapse:before {
+  content: '';
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  border-bottom: 1px solid #000000;
+  border-left: 1px solid #000000;
+  right: -12px;
+  top: 22px;
+  transform: rotate(225deg);
+  cursor: pointer;
+  padding: 2px;
+}
+
+.icon-collapse:before {
+  transform: rotate(45deg);
+  right: -2px;
+  transition: transform 0.5s;
+}

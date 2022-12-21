@@ -1,0 +1,65 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+      - name: Use node.js 16.11.0
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.11.0'
+          cache: 'yarn'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production
+          CI: false
+      - name: production or not
+        id: vercel_args
+        run: |
+          if [ "$REF" == 'refs/heads/main' ]
+          then
+              echo "::set-output name=vercel-args::--prod"
+          else
+              echo "::set-output name=vercel-args::"
+          fi
+        env:
+          REF: ${{ github.ref }}
+      - name: move vercel config
+        run: mv vercel.json build/
+      - name: Deploy to vercel preview
+        uses: amondnet/vercel-action@v19
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: ${{ steps.vercel_args.outputs.vercel-args }}
+          vercel-project-name: iv-virtual-scroller-spike
+          vercel-org-id: ${{ secrets.VERCEL_ORGID}}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECTID}}
+          scope: ${{ secrets.VERCEL_TEAMID}}
+          working-directory: ./build
+          alias-domains: | 
+            {{BRANCH}}-vs-spike.iv0.in

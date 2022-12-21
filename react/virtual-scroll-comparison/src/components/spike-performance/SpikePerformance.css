@@ -1,0 +1,24 @@
+.performance-tab .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#fps-tracker {
+  position: relative;
+}
+
+.Reset {
+  border: 1px solid grey;
+  border-radius: 4px;
+  background: none;
+  position: absolute;
+  right: 0;
+}
+
+.Stop {
+  border: 1px solid grey;
+  border-radius: 4px;
+  background: none;
+  position: absolute;
+  right: 60px;
+}

@@ -1,0 +1,19 @@
+{
+    "github": {
+      "enabled": false
+    },
+    "routes": [
+      { "handle": "filesystem" },
+      {
+        "src": "/static/(.*)",
+        "headers": { "Cache-Control": "no-store, max-age=0" }
+      },
+      {
+        "src": "/(.*)",
+        "headers": {
+          "cache-control": "public, max-age=0, must-revalidate"
+        },
+        "dest": "/index.html"
+      }
+    ]
+  }
